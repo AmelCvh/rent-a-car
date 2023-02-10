@@ -1,0 +1,24 @@
+{% extends "layout.html.twig" %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="./css/add.car.css">
+{% endblock %}
+
+{% block body%}
+
+<form method="POST" action="" enctype="multipart/form-data" class="form">
+    <label for="modele" id="modele">Modèle:</label>
+    <input name="modele" type="text" value="{{ voiture.model }}">
+
+    <label for="marque" id="marque">Marque:</label>
+    <input name="marque" type="text" value="{{ voiture.marque }}">
+
+    <label for="color" id="color">Couleur:</label>
+    <input name="color" type="color" value="{{ voiture.color }}">
+
+    <input type="file" name="img" id="img">
+
+    <input type="submit" value="Ajouter">
+</form>
+
+{% endblock %}

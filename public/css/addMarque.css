@@ -1,0 +1,27 @@
+
+body{
+    height: 100vh;
+    background-color: rgb(124, 124, 124);
+}
+
+.form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12%;
+}
+.containerAdd{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 20%;
+}
+main{
+    height: 36vh;
+}
+.alert alert-danger{
+    background-color: brown;
+}
+footer{
+    margin-top: 10.9%;
+}

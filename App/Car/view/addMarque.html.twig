@@ -1,0 +1,15 @@
+{% extends "layout.html.twig" %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="./css/addMarque.css">
+{% endblock %}
+
+{% block body %}
+
+<form method="POST" action="" enctype="multipart/form-data" class="form">
+    <label for="name" ><strong>Marque :</strong></label>
+    <input name="name" id="name" type="text">
+    <input type="submit" value="Ajouter">
+</form>
+
+{% endblock %}

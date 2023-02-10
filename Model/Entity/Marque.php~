@@ -1,0 +1,71 @@
+<?php
+
+namespace Model\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="marque")
+ * @ORM\Entity
+ */
+class Marque
+{
+    /**
+     * @ORM\Id()
+     * @ORM\Column(type="integer", name="id")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @var int
+     */
+    private int $id;
+
+
+
+    /**
+     * @ORM\Column(type="string", name="name",length="55")
+     *
+     * @var string
+     */
+    private string $name;
+
+    /**
+    * @ORM\OneToMany(targetEntity="Vehicule",mappedBy="marque")
+     */
+    
+     private $vehicule;
+
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name.
+     *
+     * @param string $name
+     *
+     * @return Marque
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+}

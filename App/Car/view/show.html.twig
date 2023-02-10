@@ -1,0 +1,20 @@
+{% extends "layout.html.twig" %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="./css/car.show.css">
+{% endblock %}
+
+{% block body %}
+    <h1>Détails du véhicule</table></h1>
+    <div class="firstCard">
+        <br><div class="card" style="width: 18rem;">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMf_VDC5fSwz0DSDVmmTlzzdwtw06iU7e0Rrbl-tp8Mw&s" class="card-img-top" alt="...">
+            <div class="card-body">
+            <span><strong>Modèle : </strong>{{ voiture.model}}</span><br>
+            <span><strong>Marque : </strong>{{ voiture.marque.name}}</span><br>
+            <span><strong>Couleur : </strong>{{ voiture.couleur}}</span>
+            <p class="card-text"><strong>Dodge Challenger SRT Demon</strong> ne coûte que 84'995 dollars, soit 76'000 euros</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

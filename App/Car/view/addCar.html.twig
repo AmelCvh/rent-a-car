@@ -1,0 +1,29 @@
+{% extends "layout.html.twig" %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="./css/add.car.css">
+{% endblock %}
+
+{% block body %}
+
+<form method="POST" action="" enctype="multipart/form-data" class="form">
+    <div class="containerAdd">
+        <label for="modele" id="modele">Modèle:</label>
+        <input name="modele" type="text">
+        <div>
+            <select name="marque">
+                <option value="null" selected>---</option>
+                {%  for marque in marques%}
+                    <option value="{{ marque.id}}">{{ marque.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <label for="color" id="color">Couleur:</label>
+        <input name="color" type="color">
+
+        <input type="file" name="img" id="img">
+
+        <input type="submit" value="Ajouter">
+    </div>
+</form>
+{% endblock %}
