@@ -1,32 +1,35 @@
-{% extends 'layout.html.twig' %}
+{% extends 'admin.layout.html.twig' %}
+
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="./css/listMarque.css">
+{% endblock %}
+
 
 {% block body %}
-
-<h1>Liste des véhicules</h1>
+<h1 class="title">Liste des marques</h1>
 
 <table>
-    <thead>
-        <tr>
-            <th>Marque</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-
-        {% for marque in marques %}
-
-            <tr>
-                {# Comme en JS on recupere les clés de nos tableaux par : array.key #}
+    <table>
+        <table class="table table-sm table-dark">
+            <thead>
+              <tr>
+                <th scope="col">Marque</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for marque in marques %}
+              <tr>
                 <td>{{ marque.name }}</td>
-
                 <td>
-                    <a href="">Supprimer</a>
+                    <a href="{{ path('marque.delete', {id: marque.id}) }}">Supprimer</a>
+                    <a href="{{ path('marque.update', {id: marque.id}) }}">Modifier</a>
                 </td>
-            </tr>
+              </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+    </table>
+{% endblock %}     
 
-        {% endfor %}
-
-    </tbody>
-</table>
-
-{% endblock %}

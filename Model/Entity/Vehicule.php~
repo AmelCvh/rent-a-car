@@ -36,6 +36,13 @@ class Vehicule
     private string $couleur;
 
 
+    /**
+     * @ORM\Column(type="string", name="img_path")
+     * @var string
+     */
+    private string $imgPath;
+
+
 
 
     /**
@@ -102,5 +109,29 @@ class Vehicule
     public function getModel()
     {
         return $this->model;
+    }
+
+    /**
+     * Set marque.
+     *
+     * @param \Model\Entity\Marque|null $marque
+     *
+     * @return Vehicule
+     */
+    public function setMarque(\Model\Entity\Marque $marque = null)
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    /**
+     * Get marque.
+     *
+     * @return \Model\Entity\Marque|null
+     */
+    public function getMarque()
+    {
+        return $this->marque;
     }
 }

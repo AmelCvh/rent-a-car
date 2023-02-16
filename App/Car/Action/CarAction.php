@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ServerRequestInterface;
 use Core\Framework\Renderer\RendererInterface;
 use Core\Framework\Validator\Validator;
+use GuzzleHttp\Psr7\UploadedFile;
 
 class CarAction
     {
@@ -40,6 +41,8 @@ class CarAction
 
             if ($method ==='POST') {
                 $data = $request->getParsedBody(); 
+                $file = $request->getUploadedFiles()['image'];
+
                 $validator = new Validator($data);
                 $errors = $validator
                         ->required('modele', 'couleur', 'marque')
@@ -49,8 +52,18 @@ class CarAction
                                 $this->toaster->makeToast($error->toString(),Toaster::ERROR);
                             }
                             return (new Response())
-                            ->withHeader('Location', '/addCar');
+                            ->withHeader('Location', 'admin/addCar');
                         }
+                $this->fileGuards($file);
+                $fileName = $file->getClientFileName();
+                $imgPath = dirname(__DIR__, 3). DIRECTORY_SEPARATOR . 'public'. DIRECTORY_SEPARATOR . 'assets'. DIRECTORY_SEPARATOR. 'image' . DIRECTORY_SEPARATOR. $fileName;
+                $file->moveTo($imgPath);
+                        if (!$file->isMoved()) {
+                            $this->toaster->makeToast("Une erreur s'est produite durant l'enregistrement de votre image, merci de réessayer", Toaster::ERROR);
+                            return (new Response())
+                            ->withHeader('Location', 'admin/addCar');
+                        }
+
                 $new = new Vehicule();
                 $marque = $this->marqueRepository->find($data['marque']);
                 $new->setModel($data['modele'])
@@ -62,7 +75,7 @@ class CarAction
                 $this->toaster->makeToast('Vehicule créer avec succès', Toaster::SUCCESS);
 
                 return (new Response())
-                    ->withHeader('Location','/listCar');
+                    ->withHeader('Location','admin/listCar');
                     
             }
 
@@ -83,7 +96,7 @@ class CarAction
         {
             $voitures = $this->repository->findAll();
 
-            return $this->renderer->render('@car/list', ["voitures" => $voitures]);
+            return $this->renderer->render('@car/listCar', ["voitures" => $voitures]);
 
         }
 
@@ -156,6 +169,34 @@ class CarAction
 
             return (new Response())
             ->withHeader('Location','/listCar');
+        }
+
+        private function fileGuards(UploadedFile $file)
+        {
+            // Handle server error
+            if ($file->getError() === 4) {
+                $this->toaster->makeToast("Une erreur est survenue lors du chargement du fichier", Toaster::ERROR);
+                return (new Response())
+                    ->withHeader('Location', '/admin/addCar');
+            }
+
+            list($type, $format)= explode('/', $file->getClientMediaType());
+
+            //Handle foarmat server
+            if(!in_array($type, ['image']) or !in_array($format, ['jpg', 'jpeg', 'png']))
+            {
+                $this->toaster->makeToast("ERREUR : Le format du fichier n'est pas valide, merci de charger un .png, .jpeg ou .jpg", Toaster::ERROR);
+                return (new Response())
+                    ->withHeader('Location', '/admin/addCar');
+            }
+
+            //Handle excessive size
+            if ($file->getSize() > 2047674) {
+                $this->toaster->makeToast("Merci de choisir un fichier n'excedant pas 2Mo", Toaster::ERROR);
+                return (new Response())
+                    ->withHeader('Location', '/admin/addCar');
+            }
+            return true;
         }
     }
 ?>

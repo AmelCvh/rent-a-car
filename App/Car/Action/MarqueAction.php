@@ -9,6 +9,7 @@ use GuzzleHttp\Psr7\Response;
 use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ServerRequestInterface;
 use Core\Framework\Renderer\RendererInterface;
+use Core\Framework\Validator\Validator;
 
 class MarqueAction
     {
@@ -40,6 +41,17 @@ class MarqueAction
             if ($method ==='POST') {
                 $data = $request->getParsedBody();  
                 $marque =$this->marqueRepository->findAll();
+                $validator = new Validator($data);
+                $errors = $validator->required("name")
+                ->getErrors();
+
+                if ($errors) {
+                    foreach ($errors as $error) {
+                        $this->toaster->makeToast($error->toString(),Toaster::ERROR);
+                    }
+                    return (new Response())
+                    ->withHeader('Location', '/addMarque');
+                }
 
                 foreach ($marque as $marques) {
                     if($marques->getName() === $data['name']) {
@@ -64,6 +76,48 @@ class MarqueAction
             $marques = $this->marqueRepository->findAll();
             
             return $this->renderer->render('@car/listMarque', ["marques" => $marques]);
+        }
+
+        public function update(ServerRequestInterface $request)
+        {
+            $method = $request->getMethod();
+            $id = $request->getAttribute('id');
+            $marque = $this->marqueRepository->find($id);
+
+            if ($method === 'POST') {
+                $data = $request->getParsedBody();
+                $validator = new Validator($data);
+                $errors = $validator->required('name')
+                    ->getErrors();
+
+                if ($errors) {
+                     foreach ($errors as $error) {
+                        $this->toaster->makeToast($error->toString(),Toaster::ERROR);
+                    }
+                    return (new Response())
+                    ->withHeader('Location', '/updateMarque/'.$id);
+            }
+            $marque->setName($data['marque']);
+            $this->manager->flush();
+            $this->toaster->makeToast("Marque modifiée", Toaster::SUCCESS);
+            return (new Response())
+            ->withHeader('Location', '/marqueList');
+        }
+        return $this->renderer->render('@car/updateMarque', ['name' => $marque]);
+    }
+
+        public function delete(ServerRequestInterface $request)
+        {
+            $id = $request->getAttribute('id');
+            $marque = $this->marqueRepository->find($id);
+
+            $this->manager->remove($marque);
+            $this->manager->flush();
+            $this->toaster->makeToast("Marque Supprimée", Toaster::SUCCESS);
+            return $this->renderer->render("@car/listMarque");
+
+            return (new Response())
+            ->withHeader('Location','/addMarque');
         }
     }
 ?>

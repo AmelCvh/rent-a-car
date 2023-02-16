@@ -2,12 +2,9 @@
 
 namespace App\Car;
 
-use Core\Toaster\Toaster;
 use App\Car\Action\CarAction;
-use Doctrine\ORM\EntityManager;
 use App\Car\Action\MarqueAction;
 use Core\Framework\Router\Router;
-use Core\Session\SessionInterface;
 use Psr\Container\ContainerInterface;
 use Core\Framework\Renderer\RendererInterface;
 use Core\Framework\AbstractClass\AbstractModule;
@@ -16,11 +13,6 @@ use Core\Framework\AbstractClass\AbstractModule;
     {
         private Router  $router;
         private RendererInterface $renderer;
-        private $repository;
-        private $marqueRepository;
-        private EntityManager $manager;
-        private SessionInterface $session;
-        private Toaster $toaster;
 
         public const DEFINITIONS = __DIR__.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php';
 
@@ -33,17 +25,19 @@ use Core\Framework\AbstractClass\AbstractModule;
 
 
             $this->renderer->addPath('car',__DIR__.DIRECTORY_SEPARATOR.'view');
-            $this->router->get('/addCar',[$carAction,'addCar'], 'car.add');
-            $this->router->get('/listCar', [$carAction, 'listCar'], 'car.list');
+            $this->router->get('/admin/addCar',[$carAction,'addCar'], 'car.add');
+            $this->router->get('/admin/listCar', [$carAction, 'listCar'], 'car.list');
             $this->router->get('/show/{id:[\d]+}', [$carAction, 'show'], 'car.show');
-            $this->router->get('/update/{id:[\d]+}', [$carAction, 'update'], 'car.update');
-            $this->router->get('/delete/{id:[\d]+}', [$carAction, 'delete'], 'car.delete');
-            $this->router->post('/update/{id:[\d]+}', [$carAction, 'update']);
-            $this->router->post('/addCar', [$carAction, 'addCar']);
-            $this->router->get('/addMarque',[$marqueAction, 'addMarque'], 'marque.add');
-            $this->router->get('/marqueList', [$marqueAction, 'marqueList'], 'marque.list');
-            $this->router->post('/addMarque',[$marqueAction, 'addMarque']);
-
+            $this->router->get('/admin/update/{id:[\d]+}', [$carAction, 'update'], 'car.update');
+            $this->router->get('/admin/delete/{id:[\d]+}', [$carAction, 'delete'], 'car.delete');
+            $this->router->post('/admin/update/{id:[\d]+}', [$carAction, 'update']);
+            $this->router->post('/admin/addCar', [$carAction, 'addCar']);
+            $this->router->get('/admin/addMarque',[$marqueAction, 'addMarque'], 'marque.add');
+            $this->router->get('/admin/marqueList', [$marqueAction, 'marqueList'], 'marque.list');
+            $this->router->post('/admin/addMarque',[$marqueAction, 'addMarque']);
+            $this->router->get('/admin/delete/marque/{id:[\d]+}', [$marqueAction, 'delete'], 'marque.delete');
+            $this->router->get('/admin/updateMarque/{id:[\d]+}', [$marqueAction, 'update'], 'marque.update');
+            $this->router->post('/admin//updateMarque', [$marqueAction, 'update']);
         }
     }
 ?>

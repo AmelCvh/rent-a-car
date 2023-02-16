@@ -3,19 +3,23 @@
 use Core\App;
 use App\Car\CarModule;
 use App\Home\HomeModule;
-use function Http\Response\send;
 use DI\ContainerBuilder;
-
-
+use App\Admin\AdminModule;
+use function Http\Response\send;
 use GuzzleHttp\Psr7\ServerRequest;
-use Core\Framework\Renderer\PHPRenderer;
+use Core\Framework\Middleware\RouterMiddleware;
+use Core\Framework\Middleware\NotFoundMiddleware;
+use Core\Framework\Middleware\AdminAuthMiddleware;
+use Core\Framework\Middleware\TraillingSlashMiddleware;
+use Core\Framework\Middleware\RouterDispatcherMiddleware;
 
 
 require dirname(__DIR__).'/vendor/autoload.php';
 
     $modules = [
         HomeModule::class,
-        CarModule::class
+        CarModule::class,
+        AdminModule::class
     ];
 
     $builder = new ContainerBuilder();
@@ -29,10 +33,15 @@ require dirname(__DIR__).'/vendor/autoload.php';
         }
     }
 
-
     $container = $builder->build();
 
     $app = new App($container, $modules);
+
+    $app->linkFirst(new TraillingSlashMiddleware())
+        ->linkWith(new RouterMiddleware($container))
+        ->linkWith(new AdminAuthMiddleware($container))
+        ->linkWith(new RouterDispatcherMiddleware())
+        ->linkWith(new NotFoundMiddleware());
     
     if (php_sapi_name() !== 'cli') {
         $response = $app->run(ServerRequest::fromGlobals());

@@ -1,4 +1,0 @@
-<?php
-Echo "Bonjour $name";
-
-?>
