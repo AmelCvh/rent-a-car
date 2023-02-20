@@ -62,6 +62,6 @@ class AuthAction
         $auth->logout();
         $this->toaster->makeToast('Deconnexion réussie', Toaster::SUCCESS);
         return (new Response())
-        ->withoutHeader('Location', 'admin/login');
+        ->withoutHeader('Location', '/admin/login');
     }
 }

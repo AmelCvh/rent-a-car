@@ -114,11 +114,11 @@ class Vehicule
     /**
      * Set marque.
      *
-     * @param \Model\Entity\Marque|null $marque
+     * @param Marque|null $marque
      *
      * @return Vehicule
      */
-    public function setMarque(\Model\Entity\Marque $marque = null)
+    public function setMarque($marque = null)
     {
         $this->marque = $marque;
 
@@ -128,7 +128,7 @@ class Vehicule
     /**
      * Get marque.
      *
-     * @return \Model\Entity\Marque|null
+     * @return Marque|null
      */
     public function getMarque()
     {

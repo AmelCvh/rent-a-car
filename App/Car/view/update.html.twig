@@ -10,11 +10,25 @@
     <label for="modele" id="modele">Modèle:</label>
     <input name="modele" type="text" value="{{ voiture.model }}">
 
-    <label for="marque" id="marque">Marque:</label>
-    <input name="marque" type="text" value="{{ voiture.marque }}">
+    <div class="input-group input-group-sm mb-3">
+        <select name="marque">
+            <option value="null">---</option>
+            {% for marque in marques %}
+                {% if marque.id is same as(voiture.marque.id)  %}
+                    <option value="{{ marque.id }}" selected>{{ marque.name }}</option>
+                    {% else %}
+                        <option value="{{ marque.id }}">{{ marque.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
 
     <label for="color" id="color">Couleur:</label>
     <input name="color" type="color" value="{{ voiture.color }}">
+
+    <div class="img-container">
+        <img style=" width: 250px; height: 180px" src="{{ assets('/assets/img/' ~ voiture.imgPath) }}" alt="">
+    </div>
 
     <input type="file" name="img" id="img">
 

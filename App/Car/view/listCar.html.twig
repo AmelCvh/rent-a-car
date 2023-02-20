@@ -7,23 +7,25 @@
 {% block body%}
 
 <h1 class="titrelist">Liste des véhicules</h1>
-<table class="table table-striped table-dark">
+<table>
   <thead>
     <tr>
-      <th scope="col"></th>
-      <th scope="col">Modèle</th>
-      <th scope="col">Marque</th>
-      <th scope="col">Couleur</th>
-      <th scope="col">Action</th>
+      <th></th>
+      <th>Modèle</th>
+      <th>Marque</th>
+      <th>Couleur</th>
+      <th>Image</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
     {% for voiture in voitures %}
     <tr>
-      <th scope="row"></th>
+      <th></th>
       <td>{{ voiture.model }}</td>
       <td>{{ voiture.marque.name}}</td>
       <td style="width: 25px; height: 25px; background:{{ voiture.couleur }}">{{ voiture.couleur }}</td>
+      <td><img src="{{ voiture.imgPath }}" name="img" alt="" srcset=""></td>
       <td>
         <a href="{{ path('car.update',{id: voiture.id})}}">Modifier</a>
         <a href="{{ path('car.delete', {id: voiture.id})}}">Supprimer</a>

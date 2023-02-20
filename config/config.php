@@ -10,6 +10,7 @@ use Core\Toaster\ToasterTwigExtension;
 use Core\Framework\Renderer\RendererInterface;
 use Core\Framework\router\RouterTwigExtension;
 use Core\Framework\Renderer\TwigRendererFactory;
+use Core\Framework\TwigExtensions\AssetsTwigExtension;
 
 return [
     "doctrine.user" => "root",
@@ -20,8 +21,10 @@ return [
     "config.viewPath" => dirname(__DIR__).DIRECTORY_SEPARATOR."view",
     "twig.extensions" => [
         RouterTwigExtension::class,
-        ToasterTwigExtension::class
+        ToasterTwigExtension::class,
+        AssetsTwigExtension::class
     ],
+
     Router::class => \DI\create(),
     RendererInterface::class => \DI\factory(TwigRendererFactory::class),
     EntityManager::class => \DI\factory(DatabaseFactory::class),

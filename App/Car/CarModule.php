@@ -14,7 +14,7 @@ use Core\Framework\AbstractClass\AbstractModule;
         private Router  $router;
         private RendererInterface $renderer;
 
-        public const DEFINITIONS = __DIR__.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php';
+        public const DEFINITION = __DIR__.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php';
 
         public function __construct(ContainerInterface $container)
         {
@@ -37,7 +37,7 @@ use Core\Framework\AbstractClass\AbstractModule;
             $this->router->post('/admin/addMarque',[$marqueAction, 'addMarque']);
             $this->router->get('/admin/delete/marque/{id:[\d]+}', [$marqueAction, 'delete'], 'marque.delete');
             $this->router->get('/admin/updateMarque/{id:[\d]+}', [$marqueAction, 'update'], 'marque.update');
-            $this->router->post('/admin//updateMarque', [$marqueAction, 'update']);
+            $this->router->post('/admin/updateMarque', [$marqueAction, 'update']);
         }
     }
 ?>
