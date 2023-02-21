@@ -114,11 +114,11 @@ class Vehicule
     /**
      * Set marque.
      *
-     * @param \Model\Entity\Marque|null $marque
+     * @param Marque|null $marque
      *
      * @return Vehicule
      */
-    public function setMarque(\Model\Entity\Marque $marque = null)
+    public function setMarque($marque = null)
     {
         $this->marque = $marque;
 
@@ -128,10 +128,34 @@ class Vehicule
     /**
      * Get marque.
      *
-     * @return \Model\Entity\Marque|null
+     * @return Marque|null
      */
     public function getMarque()
     {
         return $this->marque;
+    }
+
+    /**
+     * Set imgPath.
+     *
+     * @param string $imgPath
+     *
+     * @return Vehicule
+     */
+    public function setImgPath($imgPath)
+    {
+        $this->imgPath = $imgPath;
+
+        return $this;
+    }
+
+    /**
+     * Get imgPath.
+     *
+     * @return string
+     */
+    public function getImgPath()
+    {
+        return $this->imgPath;
     }
 }

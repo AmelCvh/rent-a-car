@@ -26,9 +26,9 @@ use Core\Framework\Router\Route;
             $this->routes[]= $name;
         }
 
-        public function post(string $path, $callable): void
+        public function post(string $path, $callable, string $name = null): void
         {
-            $this->router->addRoute(new ZendRoute($path,$callable, ['POST']));
+            $this->router->addRoute(new ZendRoute($path,$callable, ['POST'], $name));
         }
 
         public function match(ServerRequestInterface $request): ?Route
